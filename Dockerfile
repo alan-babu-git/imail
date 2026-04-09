@@ -23,7 +23,10 @@ RUN mkdir -p /app/project/EMAIL/JAR && \
 WORKDIR /app/project/EMAIL/EMAIL
 
 # Build the WAR file
-RUN ant -Dlibs.CopyLibs.classpath=/usr/share/ant/lib/ant-contrib.jar -Dbuild.compiler=modern war
+RUN ant -Dlibs.CopyLibs.classpath=/usr/share/ant/lib/ant-contrib.jar \
+    -Dj2ee.server.home=/tmp \
+    -Dj2ee.platform.classpath=/app/project/EMAIL/JAR/servlet-api.jar \
+    -Dbuild.compiler=modern war
 
 # Final stage
 FROM tomcat:8.5-jdk8-openjdk-slim
