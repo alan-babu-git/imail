@@ -3,7 +3,8 @@ services:
   - type: web
     name: mysql-db
     runtime: image
-    image: mysql:5.7
+    image:
+      url: mysql:5.7
     envVars:
       - key: MYSQL_DATABASE
         value: spam
