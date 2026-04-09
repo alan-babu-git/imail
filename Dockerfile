@@ -1,5 +1,5 @@
 # Build stage
-FROM openjdk:8-jdk-slim AS build
+FROM openjdk:8-jdk AS build
 
 # Install Ant
 RUN apt-get update && \
