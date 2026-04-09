@@ -18,7 +18,7 @@ public class DbConfig {
         // Default values for local development
         if (dbHost == null) dbHost = "localhost";
         if (dbPort == null) dbPort = "3306";
-        if (dbName == null) dbName = "spam";
+        if (dbName == null) dbName = "defaultdb";
         if (dbUser == null) dbUser = "root";
         if (dbPass == null) dbPass = "root";
         
