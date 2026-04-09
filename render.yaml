@@ -2,11 +2,13 @@ services:
   # MySQL Database
   - type: web
     name: mysql-db
-    env: docker
-    dockerfileInline: |
-      FROM mysql:5.7
-      ENV MYSQL_DATABASE=spam
-      ENV MYSQL_ROOT_PASSWORD=root
+    runtime: image
+    image: mysql:5.7
+    envVars:
+      - key: MYSQL_DATABASE
+        value: spam
+      - key: MYSQL_ROOT_PASSWORD
+        value: root
     plan: free
     disk:
       name: mysql-data
