@@ -14,19 +14,20 @@ COPY . .
 # Rename directory to avoid issues with spaces and quotes
 RUN mv "ABT_TBM_842 CODE" project
 
-# Download missing J2EE libraries into the JAR folder
+# Download missing NetBeans and J2EE libraries into the JAR folder
 RUN mkdir -p /app/project/EMAIL/JAR && \
+    wget -O /app/project/EMAIL/JAR/copylibs.jar https://repo1.maven.org/maven2/org/netbeans/external/org-netbeans-modules-java-j2seproject-copylibstask/RELEASE120/org-netbeans-modules-java-j2seproject-copylibstask-RELEASE120.jar && \
     wget -O /app/project/EMAIL/JAR/servlet-api.jar https://repo1.maven.org/maven2/javax/servlet/javax.servlet-api/3.1.0/javax.servlet-api-3.1.0.jar && \
     wget -O /app/project/EMAIL/JAR/jsp-api.jar https://repo1.maven.org/maven2/javax/servlet/jsp/javax.servlet.jsp-api/2.3.1/javax.servlet.jsp-api-2.3.1.jar
 
 # Move to the project directory where build.xml is located
 WORKDIR /app/project/EMAIL/EMAIL
 
-# Build the WAR file
-RUN ant -Dlibs.CopyLibs.classpath=/usr/share/ant/lib/ant-contrib.jar \
+# Build the WAR file using the 'dist' target
+RUN ant -Dlibs.CopyLibs.classpath=/app/project/EMAIL/JAR/copylibs.jar \
     -Dj2ee.server.home=/tmp \
-    -Dj2ee.platform.classpath=/app/project/EMAIL/JAR/servlet-api.jar \
-    -Dbuild.compiler=modern war
+    -Dj2ee.platform.classpath=/app/project/EMAIL/JAR/servlet-api.jar:/app/project/EMAIL/JAR/jsp-api.jar \
+    -Dbuild.compiler=modern dist
 
 # Final stage
 FROM tomcat:8.5-jdk8-openjdk-slim
