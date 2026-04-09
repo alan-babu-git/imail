@@ -1,34 +1,18 @@
 services:
-  # MySQL Database
-  - type: web
-    name: mysql-db
-    runtime: image
-    image:
-      url: mysql:5.7
-    envVars:
-      - key: MYSQL_DATABASE
-        value: spam
-      - key: MYSQL_ROOT_PASSWORD
-        value: root
-    plan: free
-
   # Java Web Application
   - type: web
     name: imail-app
     env: docker
     plan: free
-    # Link the database
+    # Link to Aiven MySQL Service
     envVars:
       - key: DB_HOST
-        fromService:
-          type: web
-          name: mysql-db
-          property: host
+        value: "mysql-3fb828ef-imail.d.aivencloud.com"
       - key: DB_PORT
-        value: "3306"
+        value: "18501"
       - key: DB_NAME
-        value: "spam"
+        value: "defaultdb"
       - key: DB_USER
-        value: "root"
+        value: "avnadmin"
       - key: DB_PASS
-        value: "root"
+        value: "REPLACE_ME_IN_RENDER_DASHBOARD"

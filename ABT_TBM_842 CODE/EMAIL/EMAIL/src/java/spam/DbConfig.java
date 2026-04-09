@@ -22,7 +22,7 @@ public class DbConfig {
         if (dbUser == null) dbUser = "root";
         if (dbPass == null) dbPass = "root";
         
-        String url = "jdbc:mysql://" + dbHost + ":" + dbPort + "/" + dbName;
+        String url = "jdbc:mysql://" + dbHost + ":" + dbPort + "/" + dbName + "?useSSL=true&requireSSL=true&verifyServerCertificate=false";
         return DriverManager.getConnection(url, dbUser, dbPass);
     }
 }
