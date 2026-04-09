@@ -34,8 +34,7 @@ public class sends extends HttpServlet {
             AesEncryption aes = new AesEncryption();
             AESDecryption des = new AESDecryption();
 
-            Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/spam", "root", "root");
+            con=DbConfig.getConnection();
 
             st = con.createStatement();
 

@@ -47,8 +47,7 @@ public class account extends HttpServlet {
         try {
             AesEncryption aes=new AesEncryption();AESDecryption des=new AESDecryption();
             /* TODO output your page here. You may use following sample code. */
-            Class.forName("com.mysql.jdbc.Driver");
-            con=DriverManager.getConnection("jdbc:mysql://localhost:3306/spam","root","root");
+            con=DbConfig.getConnection();
 st=con.createStatement();
 String r1=request.getParameter("r1");
 if(request.getParameter("b1")!=null)

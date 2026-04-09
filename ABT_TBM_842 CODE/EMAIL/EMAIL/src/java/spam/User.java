@@ -46,10 +46,9 @@ public class User extends HttpServlet {
             Connection con=null;
     Statement st=null;
     ResultSet rs=null;  
-Class.forName("com.mysql.jdbc.Driver"); 
+con=DbConfig.getConnection();
 AesEncryption aes=new AesEncryption();
 AESDecryption des=new AESDecryption();
-con=DriverManager.getConnection("jdbc:mysql://localhost:3306/spam","root","root");
 st=con.createStatement();   
 String t1=request.getParameter("t1");
 String t2=request.getParameter("t2");

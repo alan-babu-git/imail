@@ -46,8 +46,7 @@ public class Pass extends HttpServlet {
             Connection con=null;
     Statement st=null;
     ResultSet rs=null;  
-Class.forName("com.mysql.jdbc.Driver");
-con=DriverManager.getConnection("jdbc:mysql://localhost:3306/spam","root","root");
+con=DbConfig.getConnection();
 st=con.createStatement();   
 String t1=request.getParameter("t1");
 String t2=request.getParameter("t2");
