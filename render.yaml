@@ -11,10 +11,6 @@ services:
       - key: MYSQL_ROOT_PASSWORD
         value: root
     plan: free
-    disk:
-      name: mysql-data
-      mountPath: /var/lib/mysql
-      sizeGB: 1
 
   # Java Web Application
   - type: web
@@ -25,8 +21,9 @@ services:
     envVars:
       - key: DB_HOST
         fromService:
+          type: web
           name: mysql-db
-          type: host
+          property: host
       - key: DB_PORT
         value: "3306"
       - key: DB_NAME
