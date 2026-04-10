@@ -20,7 +20,8 @@ RUN mv "ABT_TBM_842 CODE" project
 RUN mkdir -p /app/jars && \
     wget -q -O /app/jars/servlet-api.jar https://repo1.maven.org/maven2/javax/servlet/javax.servlet-api/3.1.0/javax.servlet-api-3.1.0.jar && \
     wget -q -O /app/jars/jsp-api.jar https://repo1.maven.org/maven2/javax/servlet/jsp/javax.servlet.jsp-api/2.3.1/javax.servlet.jsp-api-2.3.1.jar && \
-    wget -q -O /app/jars/mysql-connector.jar https://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.49/mysql-connector-java-5.1.49.jar
+    wget -q -O /app/jars/mysql-connector.jar https://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.49/mysql-connector-java-5.1.49.jar && \
+    wget -q -O /app/jars/commons-io.jar https://repo1.maven.org/maven2/commons-io/commons-io/2.4/commons-io-2.4.jar
 
 # Set up WAR structure
 RUN mkdir -p /app/war/WEB-INF/classes/spam && \
@@ -32,13 +33,14 @@ RUN cp -r /app/project/EMAIL/EMAIL/web/. /app/war/
 # Copy JARs into WEB-INF/lib
 RUN cp /app/jars/mysql-connector.jar /app/war/WEB-INF/lib/ && \
     cp /app/jars/servlet-api.jar /app/war/WEB-INF/lib/ && \
-    cp /app/jars/jsp-api.jar /app/war/WEB-INF/lib/
+    cp /app/jars/jsp-api.jar /app/war/WEB-INF/lib/ && \
+    cp /app/jars/commons-io.jar /app/war/WEB-INF/lib/
 
 # Copy existing JAR files from project if any
 RUN cp /app/project/EMAIL/JAR/*.jar /app/war/WEB-INF/lib/ 2>/dev/null || true
 
 # Compile Java source files
-RUN javac -cp "/app/jars/servlet-api.jar:/app/jars/jsp-api.jar:/app/jars/mysql-connector.jar" \
+RUN javac -cp "/app/jars/servlet-api.jar:/app/jars/jsp-api.jar:/app/jars/mysql-connector.jar:/app/jars/commons-io.jar" \
     -d /app/war/WEB-INF/classes \
     /app/project/EMAIL/EMAIL/src/java/spam/*.java
 
