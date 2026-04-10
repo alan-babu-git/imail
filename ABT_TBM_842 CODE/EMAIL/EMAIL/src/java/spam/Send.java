@@ -51,7 +51,7 @@ public class Send extends HttpServlet {
         try {   
             AesEncryption aes=new AesEncryption();AESDecryption des=new AESDecryption();
             /* TODO output your page here. You may use following sample code. */
-            Connection con = DbConfig.getConnection();
+            con = DbConfig.getConnection();
 Statement st = con.createStatement();
 String t1=request.getParameter("t1");
 String t2=request.getParameter("t2");

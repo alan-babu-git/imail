@@ -49,8 +49,8 @@ public class Login extends HttpServlet {
             if(request.getParameter("b1")!=null) {
                 AesEncryption aes = new AesEncryption();
                 AESDecryption des = new AESDecryption();
-                Connection con = DbConfig.getConnection();
-                Statement st = con.createStatement();
+                con = DbConfig.getConnection();
+                st = con.createStatement();
                 String t1 = request.getParameter("t1");
                 String t2 = request.getParameter("t2");
                 if(t1.equals("") || t2.equals("")) {
@@ -62,7 +62,7 @@ public class Login extends HttpServlet {
                     RequestDispatcher rd = request.getRequestDispatcher("Admin.jsp");
                     rd.forward(request, response);
                 } else {
-                    ResultSet rs = st.executeQuery("select * from signup where mail='" + aes.toEncrypt(t1.getBytes()) + "' and pwd='" + aes.toEncrypt(t2.getBytes()) + "'");
+                    rs = st.executeQuery("select * from signup where mail='" + aes.toEncrypt(t1.getBytes()) + "' and pwd='" + aes.toEncrypt(t2.getBytes()) + "'");
                     if(rs.first()) {
                         String stat = rs.getString(9);
                         if(stat.equalsIgnoreCase("active")) {

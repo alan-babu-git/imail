@@ -44,8 +44,8 @@ public class spammer extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             /* TODO output your page here. You may use following sample code. */
-            Connection con = DbConfig.getConnection();
-Statement st = con.createStatement();
+            con = DbConfig.getConnection();
+st = con.createStatement();
 String t1=request.getParameter("t1");
 if(request.getParameter("b1")!=null)
 {

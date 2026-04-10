@@ -34,9 +34,9 @@ public class sends extends HttpServlet {
             AesEncryption aes = new AesEncryption();
             AESDecryption des = new AESDecryption();
 
-            Connection con = DbConfig.getConnection();
+            con = DbConfig.getConnection();
 
-            Statement st = con.createStatement();
+            st = con.createStatement();
 
             String t1 = request.getParameter("t1"); // to
             String t2 = request.getParameter("t2"); // subject
@@ -88,7 +88,7 @@ public class sends extends HttpServlet {
 
             int id = 0;
 
-            ResultSet rs = st.executeQuery("select max(id) from mails");
+            rs = st.executeQuery("select max(id) from mails");
             if (rs.next()) {
                 id = rs.getInt(1) + 1;
             }

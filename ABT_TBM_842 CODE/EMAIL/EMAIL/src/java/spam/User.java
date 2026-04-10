@@ -46,10 +46,10 @@ public class User extends HttpServlet {
             Connection con=null;
     Statement st=null;
     ResultSet rs=null;  
-Connection con = DbConfig.getConnection();
+con = DbConfig.getConnection();
 AesEncryption aes=new AesEncryption();
 AESDecryption des=new AESDecryption();
-Statement st = con.createStatement();   
+st = con.createStatement();   
 String t1=request.getParameter("t1");
 String t2=request.getParameter("t2");
 String h1=request.getParameter("h1");
