@@ -45,8 +45,8 @@ public class Signup extends HttpServlet {
         try {
             if(request.getParameter("b1") != null) {
                 AesEncryption aes = new AesEncryption();
-                con = DbConfig.getConnection();
-                st = con.createStatement();
+                Connection con = DbConfig.getConnection();
+                Statement st = con.createStatement();
                 String t1 = request.getParameter("t1");
                 String demo1 = request.getParameter("demo1");
                 String t2 = request.getParameter("t2");
@@ -61,7 +61,7 @@ public class Signup extends HttpServlet {
                     RequestDispatcher rd = request.getRequestDispatcher("Signup.jsp");
                     rd.forward(request, response);
                 } else {
-                    rs = st.executeQuery("select mail from signup where mail='" + t6 + "'");
+                    ResultSet rs = st.executeQuery("select mail from signup where mail='" + t6 + "'");
                     if(rs.first()) {
                         request.setAttribute("chk", "chk");
                         request.setAttribute("mes", "Mail Id Already Exists");

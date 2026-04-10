@@ -51,8 +51,8 @@ public class Send extends HttpServlet {
         try {   
             AesEncryption aes=new AesEncryption();AESDecryption des=new AESDecryption();
             /* TODO output your page here. You may use following sample code. */
-            con=DbConfig.getConnection();
-st=con.createStatement();
+            Connection con = DbConfig.getConnection();
+Statement st = con.createStatement();
 String t1=request.getParameter("t1");
 String t2=request.getParameter("t2");
 String t3=request.getParameter("t3");
@@ -162,7 +162,7 @@ if(request.getParameter("b1")!=null)
               {
             
             
-            rs=st.executeQuery("select mail from signup where mail='"+to[i]+"'");
+            ResultSet rs = st.executeQuery("select mail from signup where mail='"+to[i]+"'");
             if(rs.first())
             {
                 String text =t3;

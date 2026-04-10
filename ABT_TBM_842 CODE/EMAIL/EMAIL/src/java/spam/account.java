@@ -47,8 +47,8 @@ public class account extends HttpServlet {
         try {
             AesEncryption aes=new AesEncryption();AESDecryption des=new AESDecryption();
             /* TODO output your page here. You may use following sample code. */
-            con=DbConfig.getConnection();
-st=con.createStatement();
+            Connection con = DbConfig.getConnection();
+Statement st = con.createStatement();
 String r1=request.getParameter("r1");
 if(request.getParameter("b1")!=null)
 {
