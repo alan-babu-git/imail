@@ -39,23 +39,51 @@ public class DbInitializer implements ServletContextListener {
         StringBuilder sb = new StringBuilder();
         String line;
         Statement stmt = conn.createStatement();
+        boolean inBlockComment = false;
 
         while ((line = reader.readLine()) != null) {
-            line = line.trim();
-            if (line.isEmpty() || line.startsWith("--") || line.startsWith("/*")) {
+            String trimmedLine = line.trim();
+            
+            // Handle block comments (e.g., /* ... */)
+            if (trimmedLine.startsWith("/*")) {
+                inBlockComment = true;
+            }
+            if (inBlockComment) {
+                if (trimmedLine.endsWith("*/")) {
+                    inBlockComment = false;
+                }
                 continue;
             }
-            sb.append(line);
-            if (line.endsWith(";")) {
-                String sql = sb.toString().replace(";", "").trim();
+
+            // Skip empty lines and single-line comments
+            if (trimmedLine.isEmpty() || trimmedLine.startsWith("--") || trimmedLine.startsWith("#")) {
+                continue;
+            }
+
+            sb.append(line).append("\n"); // Keep line breaks for readability in logs
+
+            // Check if statement ends with semicolon
+            if (trimmedLine.endsWith(";")) {
+                String sql = sb.toString().trim();
+                // Remove trailing semicolon for JDBC execute
+                if (sql.endsWith(";")) {
+                    sql = sql.substring(0, sql.length() - 1);
+                }
+
                 if (!sql.isEmpty()) {
                     try {
-                        System.out.println("iMail: Executing SQL: " + (sql.length() > 50 ? sql.substring(0, 50) + "..." : sql));
+                        // Log only first 100 chars of large statements
+                        System.out.println("iMail: Executing SQL (" + sql.length() + " chars): " + 
+                                         (sql.length() > 100 ? sql.substring(0, 100) + "..." : sql));
                         stmt.execute(sql);
                     } catch (SQLException e) {
-                        // Ignore errors like "Table already exists" if not using IF NOT EXISTS
-                        if (!e.getMessage().contains("already exists")) {
-                            System.err.println("SQL Execution Warning: " + e.getMessage());
+                        // Skip common "already exists" errors to allow script to continue
+                        if (e.getMessage().toLowerCase().contains("already exists")) {
+                            // Silently skip
+                        } else {
+                            System.err.println("SQL Warning on command [" + 
+                                             (sql.length() > 50 ? sql.substring(0, 50) + "..." : sql) + 
+                                             "]: " + e.getMessage());
                         }
                     }
                 }
