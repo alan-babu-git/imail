@@ -45,7 +45,7 @@ public class Send extends HttpServlet {
     Statement st=null,st1=null;
     ResultSet rs,rs2,rs1,rs3,rs4,rs5=null;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ClassNotFoundException, SQLException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {   

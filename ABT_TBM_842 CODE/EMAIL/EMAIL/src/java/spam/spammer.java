@@ -39,7 +39,7 @@ public class spammer extends HttpServlet {
     Statement st=null;
     ResultSet rs=null;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ClassNotFoundException, SQLException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
