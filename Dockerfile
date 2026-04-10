@@ -1,9 +1,11 @@
-# Build stage
+# ============================================================
+# Build stage - Compile and package WAR manually (No Ant/NetBeans)
+# ============================================================
 FROM eclipse-temurin:8-jdk AS build
 
-# Install Ant and wget
+# Install wget
 RUN apt-get update && \
-    apt-get install -y ant wget && \
+    apt-get install -y wget && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -11,37 +13,48 @@ WORKDIR /app
 # Copy the entire workspace
 COPY . .
 
-# Rename directory to avoid issues with spaces and quotes
+# Rename directory to avoid issues with spaces
 RUN mv "ABT_TBM_842 CODE" project
 
-# Download missing NetBeans and J2EE libraries into the JAR folder
-RUN mkdir -p /app/project/EMAIL/JAR && \
-    wget -O /app/project/EMAIL/JAR/servlet-api.jar https://repo1.maven.org/maven2/javax/servlet/javax.servlet-api/3.1.0/javax.servlet-api-3.1.0.jar && \
-    wget -O /app/project/EMAIL/JAR/jsp-api.jar https://repo1.maven.org/maven2/javax/servlet/jsp/javax.servlet.jsp-api/2.3.1/javax.servlet.jsp-api-2.3.1.jar && \
-    wget -O /app/project/EMAIL/JAR/mysql-connector-java-5.1.49.jar https://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.49/mysql-connector-java-5.1.49.jar
+# Download required JARs
+RUN mkdir -p /app/jars && \
+    wget -q -O /app/jars/servlet-api.jar https://repo1.maven.org/maven2/javax/servlet/javax.servlet-api/3.1.0/javax.servlet-api-3.1.0.jar && \
+    wget -q -O /app/jars/jsp-api.jar https://repo1.maven.org/maven2/javax/servlet/jsp/javax.servlet.jsp-api/2.3.1/javax.servlet.jsp-api-2.3.1.jar && \
+    wget -q -O /app/jars/mysql-connector.jar https://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.49/mysql-connector-java-5.1.49.jar
 
-# Move to the project directory
-WORKDIR /app/project/EMAIL/EMAIL
+# Set up WAR structure
+RUN mkdir -p /app/war/WEB-INF/classes/spam && \
+    mkdir -p /app/war/WEB-INF/lib
 
-# Ensure WEB-INF/lib exists and contains all our JARs for the WAR packaging
-RUN mkdir -p web/WEB-INF/lib && \
-    cp /app/project/EMAIL/JAR/*.jar web/WEB-INF/lib/
+# Copy web content (JSPs, CSS, JS, etc.)
+RUN cp -r /app/project/EMAIL/EMAIL/web/. /app/war/
 
-# Build the WAR file
-RUN ant -Dj2ee.server.home=/tmp \
-    -Dj2ee.platform.classpath=/app/project/EMAIL/JAR/servlet-api.jar:/app/project/EMAIL/JAR/jsp-api.jar \
-    -Djavac.classpath=/app/project/EMAIL/JAR/mysql-connector-java-5.1.49.jar:/app/project/EMAIL/JAR/servlet-api.jar:/app/project/EMAIL/JAR/jsp-api.jar \
-    -Dbuild.compiler=modern dist
+# Copy JARs into WEB-INF/lib
+RUN cp /app/jars/mysql-connector.jar /app/war/WEB-INF/lib/ && \
+    cp /app/jars/servlet-api.jar /app/war/WEB-INF/lib/ && \
+    cp /app/jars/jsp-api.jar /app/war/WEB-INF/lib/
 
-# Final stage
+# Copy existing JAR files from project if any
+RUN cp /app/project/EMAIL/JAR/*.jar /app/war/WEB-INF/lib/ 2>/dev/null || true
+
+# Compile Java source files
+RUN javac -cp "/app/jars/servlet-api.jar:/app/jars/jsp-api.jar:/app/jars/mysql-connector.jar" \
+    -d /app/war/WEB-INF/classes \
+    /app/project/EMAIL/EMAIL/src/java/spam/*.java
+
+# Package into WAR
+RUN cd /app/war && jar -cvf /app/EMAIL.war .
+
+# ============================================================
+# Final stage - Tomcat
+# ============================================================
 FROM tomcat:8.5-jdk8-openjdk-slim
 
 # Remove default apps
 RUN rm -rf /usr/local/tomcat/webapps/*
 
-# Copy the built WAR from the build stage
-# Note: Ant build usually puts the war in a 'dist' folder
-COPY --from=build /app/project/EMAIL/EMAIL/dist/EMAIL.war /usr/local/tomcat/webapps/ROOT.war
+# Copy our WAR
+COPY --from=build /app/EMAIL.war /usr/local/tomcat/webapps/ROOT.war
 
 EXPOSE 8080
 CMD ["catalina.sh", "run"]
