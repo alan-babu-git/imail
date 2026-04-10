@@ -104,14 +104,8 @@ else
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-                    try {
-                        processRequest(request, response);
-                    } catch (ClassNotFoundException ex) {
-                        Logger.getLogger(account.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-        } catch (SQLException ex) {
-            Logger.getLogger(account.class.getName()).log(Level.SEVERE, null, ex);
-        }
+                    processRequest(request, response); 
+        } 
     }
 
     /**
@@ -127,14 +121,8 @@ else
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-                    try {
-                        processRequest(request, response);
-                    } catch (ClassNotFoundException ex) {
-                        Logger.getLogger(account.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-        } catch (SQLException ex) {
-            Logger.getLogger(account.class.getName()).log(Level.SEVERE, null, ex);
-        }
+                    processRequest(request, response); 
+        } 
     }
 
     /**

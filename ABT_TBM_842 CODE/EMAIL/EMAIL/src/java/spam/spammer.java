@@ -91,13 +91,7 @@ else
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(spammer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(spammer.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);  
     }
 
     /**
@@ -112,13 +106,7 @@ else
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(spammer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(spammer.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);  
     }
 
     /**
