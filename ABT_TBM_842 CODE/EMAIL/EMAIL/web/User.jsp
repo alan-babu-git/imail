@@ -67,8 +67,8 @@ if(request.getAttribute("chk")!=null)
 Connection con=null;
     Statement st=null;
     ResultSet rs=null;  
-Class.forName("com.mysql.jdbc.Driver"); AesEncryption aes=new AesEncryption();AESDecryption des=new AESDecryption();
-con=DriverManager.getConnection("jdbc:mysql://localhost:3306/spam","root","root");
+ AesEncryption aes=new AesEncryption();AESDecryption des=new AESDecryption();
+con=spam.DbConfig.getConnection();
 st=con.createStatement();   
 String t1="",t2="",t3="",t4="",t5="",t6="",t7="",t8="";
 rs=st.executeQuery("select * from signup where mail='"+aes.toEncrypt(mail.getBytes())+"'");

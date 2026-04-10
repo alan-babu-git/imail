@@ -103,9 +103,7 @@ try
  System.out.println("select * from mails where mto='"+name+"' and typ='spam' order by mdate desc,mtime desc");
 		int flag=0;  
 
-		String url="jdbc:mysql://localhost:3306/spam";
-		Class.forName("com.mysql.jdbc.Driver");
-		Connection con1=DriverManager.getConnection(url,"root","root");
+		Connection con1=spam.DbConfig.getConnection();
 		Statement st1=con1.createStatement();
 
 
@@ -139,9 +137,7 @@ try
 
 
         try {
-                String url = "jdbc:mysql://localhost:3306/spam";
-                Class.forName("com.mysql.jdbc.Driver");
-                Connection con1 = DriverManager.getConnection(url, "root", "root");
+                Connection con1 = spam.DbConfig.getConnection();
                 Statement st1 = con1.createStatement();
                 String a11 = null, a12 = "", a13 = "";
                 HttpSession so = request.getSession(true);

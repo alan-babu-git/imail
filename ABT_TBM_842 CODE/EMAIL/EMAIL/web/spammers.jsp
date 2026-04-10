@@ -65,8 +65,8 @@ if(chk!=null)
 Connection con=null;
     Statement st=null;
     ResultSet rs=null;  
-Class.forName("com.mysql.jdbc.Driver");
-con=DriverManager.getConnection("jdbc:mysql://localhost:3306/spam","root","root");
+
+con=spam.DbConfig.getConnection();
 st=con.createStatement();        
 %>
         <center>
