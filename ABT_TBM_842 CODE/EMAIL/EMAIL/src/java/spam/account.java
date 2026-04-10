@@ -103,9 +103,7 @@ else
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-                    processRequest(request, response); 
-        } 
+        processRequest(request, response); 
     }
 
     /**
@@ -120,9 +118,7 @@ else
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-                    processRequest(request, response); 
-        } 
+        processRequest(request, response); 
     }
 
     /**
