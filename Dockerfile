@@ -39,9 +39,10 @@ RUN cp /app/jars/mysql-connector.jar /app/war/WEB-INF/lib/ && \
 # Copy existing JAR files from project if any
 RUN cp /app/project/EMAIL/JAR/*.jar /app/war/WEB-INF/lib/ 2>/dev/null || true
 
-# Compile Java source files
+# Compile Java source files (spam package + dataset package)
 RUN javac -cp "/app/jars/servlet-api.jar:/app/jars/jsp-api.jar:/app/jars/mysql-connector.jar:/app/jars/commons-io.jar" \
     -d /app/war/WEB-INF/classes \
+    /app/project/EMAIL/EMAIL/src/java/dataset/*.java \
     /app/project/EMAIL/EMAIL/src/java/spam/*.java
 
 # Package into WAR
