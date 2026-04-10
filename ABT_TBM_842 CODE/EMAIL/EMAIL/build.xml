@@ -10,6 +10,10 @@
 <project name="EMAIL" default="default" basedir=".">
     <description>Builds, tests, and runs the project EMAIL.</description>
     <import file="nbproject/build-impl.xml"/>
+
+    <target name="-init-taskdefs">
+        <echo>Skipping CopyLibs deployment taskdef in headless build.</echo>
+    </target>
     <!--
 
     There exist several targets which are by default empty and which can be 
