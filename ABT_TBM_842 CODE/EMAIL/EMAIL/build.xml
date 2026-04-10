@@ -13,6 +13,22 @@
 
     <target name="-init-taskdefs">
         <echo>Skipping CopyLibs deployment taskdef in headless build.</echo>
+        <!-- Define a dummy copyfiles macrodef so build-impl.xml doesn't fail -->
+        <macrodef name="copyfiles">
+            <attribute name="files"/>
+            <attribute name="todir"/>
+            <attribute name="iftldtodir" default=""/>
+            <sequential>
+                <copy todir="@{todir}" failonerror="false">
+                    <fileset file="@{files}"/>
+                </copy>
+            </sequential>
+        </macrodef>
+    </target>
+
+    <!-- Override library-inclusion-in-archive: JARs already in WEB-INF/lib via Dockerfile -->
+    <target name="library-inclusion-in-archive" depends="init">
+        <echo>Skipping library-inclusion-in-archive: JARs pre-copied in Docker build step.</echo>
     </target>
     <!--
 
