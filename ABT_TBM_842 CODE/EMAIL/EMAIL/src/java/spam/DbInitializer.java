@@ -16,7 +16,9 @@ public class DbInitializer implements ServletContextListener {
         System.out.println("iMail: Starting Database Initialization...");
         Connection conn = null;
         try {
+            System.out.println("iMail: Connecting to database using DbConfig...");
             conn = DbConfig.getConnection();
+            System.out.println("iMail: Connection established. Executing /spam/init.sql...");
             executeSqlScript(conn, "/spam/init.sql");
             System.out.println("iMail: Database Initialization Completed Successfully.");
         } catch (Exception e) {

@@ -15,11 +15,8 @@
 
 
 --`information_schema``mysql`
--- Create schema spam
+-- Schema will be the one provided in connection (e.g. defaultdb)
 --
-
-CREATE DATABASE IF NOT EXISTS spam;
-USE spam;
 
 --
 -- Definition of table `mails`

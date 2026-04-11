@@ -45,6 +45,10 @@ RUN javac -cp "/app/jars/servlet-api.jar:/app/jars/jsp-api.jar:/app/jars/mysql-c
     /app/project/EMAIL/EMAIL/src/java/dataset/*.java \
     /app/project/EMAIL/EMAIL/src/java/spam/*.java
 
+# Copy resources (like init.sql) into classes directory
+RUN cp /app/project/EMAIL/EMAIL/src/java/spam/init.sql /app/war/WEB-INF/classes/spam/
+
+
 # Package into WAR
 RUN cd /app/war && jar -cvf /app/EMAIL.war .
 
