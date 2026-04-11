@@ -54,8 +54,8 @@ if(request.getParameter("b1")!=null)
 {
     if(request.getParameter("r1")!=null)
     {
-        System.out.println("update signup set status='active' where mail='"+r1+"'");
-       String qry="update signup set status='active' where mail='"+r1+"'";
+        System.out.println("update signup set status='active' where mail='"+aes.toEncrypt(r1.getBytes())+"'");
+       String qry="update signup set status='active' where mail='"+aes.toEncrypt(r1.getBytes())+"'";
         int i=st.executeUpdate(qry);
        if(i!=0)
     {

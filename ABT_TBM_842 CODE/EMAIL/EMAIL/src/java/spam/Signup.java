@@ -61,7 +61,7 @@ public class Signup extends HttpServlet {
                     RequestDispatcher rd = request.getRequestDispatcher("Signup.jsp");
                     rd.forward(request, response);
                 } else {
-                    ResultSet rs = st.executeQuery("select mail from signup where mail='" + t6 + "'");
+                    ResultSet rs = st.executeQuery("select mail from signup where mail='" + aes.toEncrypt(t6.getBytes()) + "'");
                     if(rs.first()) {
                         request.setAttribute("chk", "chk");
                         request.setAttribute("mes", "Mail Id Already Exists");

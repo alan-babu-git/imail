@@ -72,9 +72,9 @@ if(request.getParameter("b1")!=null)
        String qry="update signup set name='"+aes.toEncrypt(t1.getBytes())+
            "', gender='"+aes.toEncrypt(t2.getBytes())+
            "', dob='"+aes.toEncrypt(t3.getBytes())+
-           "', addr='"+aes.toEncrypt(t4.getBytes())+
-           "', pin='"+aes.toEncrypt(t5.getBytes())+
-           "', cont='"+aes.toEncrypt(t6.getBytes())+
+           "', mobile='"+aes.toEncrypt(t4.getBytes())+
+           "', address='"+aes.toEncrypt(t5.getBytes())+
+           "', sec_que='"+aes.toEncrypt(t6.getBytes())+
            "' where mail='"+aes.toEncrypt(h1.getBytes())+"'";
         int i=st.executeUpdate(qry);
         if(i!=0)

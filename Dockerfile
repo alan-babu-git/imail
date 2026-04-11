@@ -63,5 +63,12 @@ RUN rm -rf /usr/local/tomcat/webapps/*
 # Copy our WAR
 COPY --from=build /app/EMAIL.war /usr/local/tomcat/webapps/ROOT.war
 
+# Create startup script that adjusts Tomcat port for Railway
+RUN echo '#!/bin/sh\n\
+PORT=${PORT:-8080}\n\
+sed -i "s/port=\"8080\"/port=\"$PORT\"/" /usr/local/tomcat/conf/server.xml\n\
+exec catalina.sh run' > /usr/local/tomcat/bin/start.sh && \
+    chmod +x /usr/local/tomcat/bin/start.sh
+
 EXPOSE 8080
-CMD ["catalina.sh", "run"]
+CMD ["/usr/local/tomcat/bin/start.sh"]
