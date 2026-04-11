@@ -98,6 +98,15 @@ else
     RequestDispatcher rd=request.getRequestDispatcher("User.jsp");
     rd.forward(request, response);
 }
+        } catch (Exception e) {
+            request.setAttribute("chk", "chk");
+            request.setAttribute("mes", "DB Error: " + e.getMessage());
+            try {
+                RequestDispatcher rd = request.getRequestDispatcher("User.jsp");
+                rd.forward(request, response);
+            } catch (Exception ex) {
+                out.println("<h2>Error: " + e.getMessage() + "</h2>");
+            }
         } finally {            
             out.close();
         }
