@@ -133,14 +133,14 @@ public class sends extends HttpServlet {
             rd.forward(request, response);
 
         } catch (Exception e) {
-            e.printStackTrace();
-
             request.setAttribute("chk", "chk");
             request.setAttribute("mes", "Error: " + e.getMessage());
-
-            RequestDispatcher rd = request.getRequestDispatcher("Send.jsp");
-            rd.forward(request, response);
-
+            try {
+                RequestDispatcher rd = request.getRequestDispatcher("Send.jsp");
+                rd.forward(request, response);
+            } catch (Exception ex) {
+                out.println("<h2>Error: " + e.getMessage() + "</h2>");
+            }
         } finally {
             out.close();
         }

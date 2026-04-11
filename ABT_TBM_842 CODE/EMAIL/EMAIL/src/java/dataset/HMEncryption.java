@@ -8,7 +8,7 @@ package dataset;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
-import sun.misc.BASE64Encoder;
+import java.util.Base64;
 
 /**
  *
@@ -36,7 +36,7 @@ public class HMEncryption {
 		try {
 			
 			byte[] utf8 = cipher.doFinal(content);
-			return (new BASE64Encoder()).encode(utf8);
+			return Base64.getEncoder().encodeToString(utf8);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -8,6 +8,7 @@ package dataset;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
+import java.util.Base64;
 
 /**
  *
@@ -31,7 +32,7 @@ public class HMDecryption {
 	}
 	public String toDeycrypt(String  encrypted) {
 		try {
-			byte[] dec = new sun.misc.BASE64Decoder().decodeBuffer(encrypted);
+			byte[] dec = Base64.getDecoder().decode(encrypted);
 			byte[] utf8 = cipher.doFinal(dec);
 			return new String(utf8, "UTF8");
 		} catch (Exception e) {
